@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sample</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      position: relative;
+    }
+
+    #tabs {
+      float: left;
+      background-color: #ffffff;
+      width: 150px;
+      /* Set a fixed width for the sidebar */
+    }
+
+    #tabs button {
+      background-color: transparent;
+      display: block;
+      border: none;
+      outline: none;
+      cursor: pointer;
+      object-fit: cover;
+      padding: 0;
+      transition: 0.3s;
+      width: 150px;
+      /* Set width for the left side buttons */
+      height: 100px;
+      /* Set height for the left side buttons */
+      overflow: hidden;
+      /* Hide overflowing content */
+      margin-bottom: 20px;
+    }
+
+    #tabs button img {
+      width: 100%;
+      height: 100%;
+    }
+
+    #tabs button:hover {
+      background-color: #ddd;
+    }
+
+    #content {
+      margin-left: 150px;
+      /* Adjust margin to create space for the buttons */
+      padding: 20px;
+    }
+
+    #tabs-right {
+      position: absolute;
+      top: 0;
+      right: 0;
+      background-color: #ffffff;
+      width: 150px;
+      /* Set a fixed width for the sidebar */
+    }
+
+    #tabs-right button {
+      background-color: rgb(228, 227, 227);
+      display: block;
+      border: none;
+      outline: none;
+      cursor: pointer;
+      object-fit: cover;
+      padding: 0;
+      transition: 0.3s;
+      width: 100px;
+      /* Set square width for the right side buttons */
+      height: 100px;
+      /* Set square height for the right side buttons */
+      overflow: hidden;
+      /* Hide overflowing content */
+      margin-bottom: 20px;
+    }
+
+    #tabs-right button img {
+      width: 80%;
+      height: 80%;
+
+    }
+
+    #tabs-right button:hover {
+      background-color: #797979;
+      color: #ccc;
+    }
+
+    .popup {
+      display: none;
+      position: absolute;
+      width: 400px;
+      height: 800px;
+      background-color: #fff;
+      border: 1px solid #ccc;
+      z-index: 999;
+      right: 0;
+      /* Position from right side */
+      top: 0;
+      /* Position from top */
+    }
+
+    .popup-content {
+      padding: 20px;
+      position: absolute;
+      top: 0;
+      /* Position from top */
+      left: 0;
+      /* Position from left */
+      right: 0;
+      /* Position from right */
+      bottom: 0;
+      /* Position from bottom */
+    }
+
+    .popup-close {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      cursor: pointer;
+    }
+
+    iframe {
+      width: 100%;
+      height: 500px;
+      border: none;
+    }
+  </style>
+</head>
+
+<body>
+
+  <h1 align="center">Create your custom product</h1>
+
+  <h1>Sample</h1>
+
+  <div id="tabs">
+    <button class="btn btn-primary" onclick="openTab('tab1')"><img src="assets/img/Screenshot 2024-04-29 141144.png"
+        alt="Thumbnail 1"></button>
+    <button class="btn btn-primary" onclick="openTab('tab2')"><img src="assets/img/Screenshot 2024-04-29 141128.png"
+        alt="Thumbnail 2"></button>
+    <button class="btn btn-primary" onclick="openTab('tab3')"><img src="assets/img/Screenshot 2024-04-29 141107.png"
+        alt="Thumbnail 3"></button>
+  </div>
+
+  <div id="content">
+    <iframe id="tab1" src="1.html" style="display:none;"></iframe>
+    <iframe id="tab2" src="2.html" style="display:none;"></iframe>
+    <iframe id="tab3" src="3.html" style="display:none;"></iframe>
+  </div>
+
+
+  <div id="tabs-right">
+    <h1><u>Tools</u></h1>
+    <button class="btn btn-primary square-btn" onclick="openPopup('texture')"><img
+        src="assets/icons/pattern-svgrepo-com.svg" alt="Texture"></button>
+    <button class="btn btn-primary square-btn" onclick="openPopup('color')"><img
+        src="assets/icons/color-palette-svgrepo-com.svg" alt="Color"></button>
+    <button class="btn btn-primary square-btn" onclick="openPopup('material')"><img
+        src="assets/icons/pen-nib-svgrepo-com.svg" alt="Material"></button>
+  </div>
+  <div id="popup-texture" class="popup">
+    <div class="popup-content">
+      <!-- Content for Texture -->
+      <h2>Texture</h2>
+      <label for="textureFile">Upload Texture:</label>
+      <input type="file" id="textureFile" accept=".jpg, .jpeg, .png">
+      <button class="btn btn-primary square-btn" onclick="changeJerseyTexture()">Change Texture</button>
+      <span class="popup-close" onclick="closePopup('texture')">&times;</span>
+    </div>
+  </div>
+  
+
+
+  <div id="popup-color" class="popup">
+    <div class="popup-content">
+      <!-- Content for Color -->
+      <h2>Color</h2>
+      <p>Content related to Color goes here...</p>
+      <span class="popup-close" onclick="closePopup('color')">&times;</span>
+    </div>
+  </div>
+
+  <div id="popup-material" class="popup">
+    <div class="popup-content">
+      <!-- Content for Material -->
+      <h2>Material</h2>
+      <p>Content related to Material goes here...</p>
+      <span class="popup-close" onclick="closePopup('material')">&times;</span>
+    </div>
+  </div>
+
+  <!-- Bootstrap JS (Optional, if needed) -->
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+  <script>
+    function openTab(tabName) {
+      var i, tabcontent, tablinks;
+      tabcontent = document.getElementsByTagName("iframe");
+      for (i = 0; i < tabcontent.length; i++) {
+        tabcontent[i].style.display = "none";
+      }
+      document.getElementById(tabName).style.display = "block";
+    }
+
+    function openPopup(popupName) {
+      document.getElementById('popup-' + popupName).style.display = "block";
+    }
+
+    function closePopup(popupName) {
+      document.getElementById('popup-' + popupName).style.display = "none";
+    }
+    
+    function changeJerseyTexture() {
+      const fileInput = document.getElementById('textureFile');
+      const file = fileInput.files[0];
+      
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function(event) {
+          const newTextureURL = event.target.result;
+          const tabName = getOpenTabName();
+          const iframe = document.getElementById(tabName);
+          
+          if (iframe) {
+            iframe.contentWindow.postMessage({ action: 'changeTexture', textureURL: newTextureURL }, '*');
+          } else {
+            alert("Please open a tab to apply the texture.");
+          }
+        };
+        reader.readAsDataURL(file);
+      } else {
+        alert("Please select a file.");
+      }
+    }
+
+    function getOpenTabName() {
+      const iframes = document.getElementsByTagName("iframe");
+      for (let i = 0; i < iframes.length; i++) {
+        if (iframes[i].style.display === "block") {
+          return iframes[i].id;
+        }
+      }
+      return null;
+    }
+  </script>
+
+</body>
+
+</html>

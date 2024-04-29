@@ -1,0 +1,11 @@
+Model Information:
+* title:	Fleece Jacket
+* source:	https://sketchfab.com/3d-models/fleece-jacket-26e7c5710ca5471d9f5f977dd1499ea0
+* author:	Jonathan Millhauser (https://sketchfab.com/jonathanmillhauser)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Fleece Jacket" (https://sketchfab.com/3d-models/fleece-jacket-26e7c5710ca5471d9f5f977dd1499ea0) by Jonathan Millhauser (https://sketchfab.com/jonathanmillhauser) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)

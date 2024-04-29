@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <title>Sample</title>
+    <link rel="stylesheet" href="css/style.css" />
+</head>
+
+<body>
+    <header>
+        <h1></h1>
+    </header>
+
+    <main>
+        <div id="container3D"></div>
+    </main>
+
+    <!-- Use script tag with type="module" to support ES6 modules -->
+    <script type="module">
+        // Import Three.js and its dependencies from CDN
+        import * as THREE from "https://cdn.skypack.dev/three@0.129.0/build/three.module.js";
+        import { OrbitControls } from "https://cdn.skypack.dev/three@0.129.0/examples/jsm/controls/OrbitControls.js";
+        import { GLTFLoader } from "https://cdn.skypack.dev/three@0.129.0/examples/jsm/loaders/GLTFLoader.js";
+
+        // Your JavaScript code here
+        // Create a Three.JS Scene
+        const scene = new THREE.Scene();
+        // Create a new camera with positions and angles
+        const camera = new THREE.PerspectiveCamera(
+            75,
+            window.innerWidth / window.innerHeight,
+            0.1,
+            1000
+        );
+
+        // Keep the 3D objects on global variables so we can access them later
+        let dinoObject;
+        let eyeObject;
+        let jerseyObject;
+        let jersey2Object;
+
+        // OrbitControls allow the camera to move around the scene
+        let controls;
+
+        // Instantiate a loader for the .gltf file
+        const gltfLoader = new GLTFLoader();
+
+        // Function to load an object based on the value of objToRender
+        function loadObject() {
+            switch (objToRender) {
+                case "dino":
+                    gltfLoader.load(
+                        `models/dino/scene.gltf`,
+                        function (gltf) {
+                            dinoObject = gltf.scene;
+
+                            // Set the initial position of the dino
+                            dinoObject.position.set(0, 0, 0);
+
+                            // Add the dino to the scene
+                            scene.add(dinoObject);
+                        },
+                        function (xhr) {
+                            // While it is loading, log the progress
+                            console.log((xhr.loaded / xhr.total) * 100 + "% loaded");
+                        },
+                        function (error) {
+                            // If there is an error, log it
+                            console.error(error);
+                        }
+                    );
+                    break;
+                case "eye":
+                    gltfLoader.load(
+                        `models/eye/scene.gltf`,
+                        function (gltf) {
+                            eyeObject = gltf.scene;
+
+                            // Set the initial position of the eye
+                            eyeObject.position.set(0, 0, 0);
+                            eyeObject.scale.set(35, 35, 35);
+
+                            // Add the eye to the scene
+                            scene.add(eyeObject);
+                        },
+                        function (xhr) {
+                            // While it is loading, log the progress
+                            console.log((xhr.loaded / xhr.total) * 100 + "% loaded");
+                        },
+                        function (error) {
+                            // If there is an error, log it
+                            console.error(error);
+                        }
+                    );
+                    break;
+                case "jersey":
+                    gltfLoader.load(
+                        `models/jersey/scene.gltf`,
+                        function (gltf) {
+                            jerseyObject = gltf.scene;
+
+                            // Set material to not transparent
+                            jerseyObject.traverse((child) => {
+                                if (child instanceof THREE.Mesh) {
+                                    child.material.transparent = false;
+                                }
+                            });
+
+                            // Set the initial position and scale of the jersey
+                            jerseyObject.position.set(0, 0, 0);
+                            jerseyObject.scale.set(35, 35, 35);
+
+                            // Add the jersey to the scene
+                            scene.add(jerseyObject);
+                        },
+                        function (xhr) {
+                            // While it is loading, log the progress
+                            console.log((xhr.loaded / xhr.total) * 100 + "% loaded");
+                        },
+                        function (error) {
+                            // If there is an error, log it
+                            console.error(error);
+                        }
+                    );
+                    break;
+                case "jersey2":
+                    gltfLoader.load(
+                        `models/jersey2/scene.gltf`,
+                        function (gltf) {
+                            jersey2Object = gltf.scene;
+
+                            // Set material to not transparent
+                            jersey2Object.traverse((child) => {
+                                if (child instanceof THREE.Mesh) {
+                                    child.material.transparent = false;
+                                }
+                            });
+
+                            // Set the initial position and scale of the jersey2
+                            jersey2Object.position.set(0, 0, 0);
+                            jersey2Object.scale.set(20, 20, 20);
+
+                            // Add the jersey2 to the scene
+                            scene.add(jersey2Object);
+                        },
+                        function (xhr) {
+                            // While it is loading, log the progress
+                            console.log((xhr.loaded / xhr.total) * 100 + "% loaded");
+                        },
+                        function (error) {
+                            // If there is an error, log it
+                            console.error(error);
+                        }
+                    );
+                    break;
+                default:
+                    console.error("Invalid objToRender value");
+            }
+        }
+
+        // Set the object to render (dino, eye, jersey, or jersey2)
+        let objToRender = "eye";
+
+        // Load the object based on objToRender value
+        loadObject();
+
+        // Instantiate a new renderer and set its size
+        const renderer = new THREE.WebGLRenderer({ alpha: true }); // Alpha: true allows for the transparent background
+        renderer.setSize(window.innerWidth, window.innerHeight);
+
+        // Add the renderer to the DOM
+        document.getElementById("container3D").appendChild(renderer.domElement);
+
+        // Set how far the camera will be from the 3D model
+        camera.position.z = 25; // Adjust this value as needed
+
+        // Add lights to the scene, so we can actually see the 3D model
+        const topLight = new THREE.DirectionalLight(0xffffff, 1); // (color, intensity)
+        topLight.position.set(500, 500, 500); // top-left-ish
+        topLight.castShadow = true;
+        scene.add(topLight);
+
+        const ambientLight = new THREE.AmbientLight(0x333333, 5);
+        scene.add(ambientLight);
+
+        // This adds controls to the camera, so we can rotate / zoom it with the mouse
+        controls = new OrbitControls(camera, renderer.domElement);
+
+        // Render the scene
+        function animate() {
+            requestAnimationFrame(animate);
+
+            renderer.render(scene, camera);
+        }
+
+        // Add a listener to the window, so we can resize the window and the camera
+        window.addEventListener("resize", function () {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+
+        // Start the 3D rendering
+        animate();
+
+        function makeJersey2Brighter() {
+            if (jersey2Object) {
+                jersey2Object.traverse((child) => {
+                    if (child instanceof THREE.Mesh) {
+                        // Increase the emissive intensity
+                        if (child.material.emissive !== undefined) {
+                            child.material.emissiveIntensity = 2; // Adjust the intensity as needed
+                        }
+                    }
+                });
+            }
+        }
+        // Call the function to make jersey2 brighter
+        makeJersey2Brighter();
+    </script>
+</body>
+
+</html>
